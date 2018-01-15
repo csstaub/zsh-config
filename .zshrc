@@ -21,7 +21,11 @@ zstyle ':prezto:module:editor:info:keymap:alternate' format $' %B%F{2}‚ùÆ%F{3}‚ù
 # Use 'v' to enter editor
 bindkey -M vicmd v edit-command-line
 
+# Set ls colors
+eval $(gdircolors)
+
 alias vim='nvim'
+alias ls='gls --color=auto'
 
 export VISUAL='nvim'
 export EDITOR='nvim'
