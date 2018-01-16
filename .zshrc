@@ -13,10 +13,6 @@ if [[ -s "/usr/local/opt/fzf/shell/key-bindings.zsh" ]]; then
   source "/usr/local/opt/fzf/shell/key-bindings.zsh"
 fi
 
-# Change cursor style based on keymap
-zstyle ':prezto:module:editor:info:keymap:primary' format $' %B%F{1}❯%F{3}❯%F{2}❯%f%b\x1b]1337;CursorShape=1\x07'
-zstyle ':prezto:module:editor:info:keymap:alternate' format $' %B%F{2}❮%F{3}❮%F{1}❮%f%b\x1b]1337;CursorShape=0\x07'
-
 # ZSH setting overrides
 # Use 'v' to enter editor
 bindkey -M vicmd v edit-command-line
