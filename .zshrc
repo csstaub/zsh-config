@@ -10,8 +10,17 @@ fi
 
 # Source FZF
 if [[ -s "/usr/local/opt/fzf/shell/key-bindings.zsh" ]]; then
+  source "/usr/local/opt/fzf/shell/completion.zsh"
   source "/usr/local/opt/fzf/shell/key-bindings.zsh"
 fi
+
+_fzf_compgen_path() {
+  find -L "$1" -mindepth 1 -not -path '*/\.*' | sed 's@^\./@@'
+}
+
+_fzf_compgen_dir() {
+  find -L "$1" -type d -mindepth 1 -not -path '*/\.*' | sed 's@^\./@@'
+}
 
 # Change vi mode cursor shape in iTerm
 function zle-set-cursor-shape {
