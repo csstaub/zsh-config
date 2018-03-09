@@ -64,6 +64,13 @@ zle -N zle-line-init
 zle -N zle-line-finish
 zle -N zle-keymap-select
 
+function cdd {
+  FZF_DEFAULT_COMMAND_SAVED=$FZF_DEFAULT_COMMAND
+  export FZF_DEFAULT_COMMAND="find $HOME/Development -type d -mindepth 1 -maxdepth 6 -not -path '*/\.*' -and -not -path '*/go/pkg*' | sed 's_${HOME}/Development[/]__g'"
+  cd $HOME/Development/$(fzf)
+  export FZF_DEFAULT_COMMAND=$FZF_DEFAULT_COMMAND_SAVED
+}
+
 # ZSH setting overrides
 # Use 'v' to enter editor
 bindkey -M vicmd v edit-command-line
