@@ -15,11 +15,11 @@ if [[ -s "/usr/local/opt/fzf/shell/key-bindings.zsh" ]]; then
 fi
 
 _fzf_compgen_path() {
-  find -L "$1" -mindepth 1 -not -path '*/\.*' | sed 's@^\./@@'
+  find -L "$1" -mindepth 1 -maxdepth 6 -not -path '*/\.*' | sed 's@^\./@@'
 }
 
 _fzf_compgen_dir() {
-  find -L "$1" -type d -mindepth 1 -not -path '*/\.*' | sed 's@^\./@@'
+  find -L "$1" -type d -mindepth 1 -maxdepth 6 -not -path '*/\.*' | sed 's@^\./@@'
 }
 
 # Change vi mode cursor shape in iTerm
