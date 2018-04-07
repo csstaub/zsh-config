@@ -1,0 +1,69 @@
+function git {
+  if ! ssh-add -L | grep -q opensc; then
+    ssh-add -s /usr/local/lib/opensc-pkcs11.so
+  fi
+  /usr/bin/git "$@"
+}
+
+function ssh {
+  if ! ssh-add -L | grep -q opensc; then
+    ssh-add -s /usr/local/lib/opensc-pkcs11.so
+  fi
+  /usr/bin/ssh "$@"
+}
+
+# Change vi mode cursor shape in iTerm
+function zle-set-cursor-shape {
+  case $KEYMAP in
+    vicmd)      print -n -- "\E]50;CursorShape=0\C-G" ;;
+    viins|main) print -n -- "\E]50;CursorShape=1\C-G" ;;
+  esac
+
+  zle reset-prompt
+  zle -R
+}
+
+function zle-line-init {
+  if (( $+terminfo[smkx] )); then
+    echoti smkx
+  fi
+  zle editor-info
+
+  # Set cursor based on mode
+  zle-set-cursor-shape
+}
+
+function zle-keymap-select {
+  zle editor-info
+
+  # Set cursor based on mode
+  zle-set-cursor-shape
+}
+
+function zle-line-finish {
+  if (( $+terminfo[rmkx] )); then
+    echoti rmkx
+  fi
+  zle editor-info
+
+  # Reset to block cursor
+  print -n -- "\E]50;CursorShape=0\C-G"
+}
+
+zle -N zle-line-init
+zle -N zle-line-finish
+zle -N zle-keymap-select
+
+function cdd {
+  FZF_DEFAULT_COMMAND_SAVED=$FZF_DEFAULT_COMMAND
+  export FZF_DEFAULT_COMMAND="find $HOME/Development -type d -mindepth 1 -maxdepth 6 -not -path '*/\.*' -and -not -path '*/go/pkg*' | sed 's_${HOME}/Development[/]__g'"
+  cd $HOME/Development/$(fzf)
+  export FZF_DEFAULT_COMMAND=$FZF_DEFAULT_COMMAND_SAVED
+}
+
+eval $(gdircolors)
+alias ls='gls --color=auto'
+
+export GOPATH=$HOME/Development/go
+export PATH=/usr/local/bin:/usr/local/go/bin:/usr/local/sbin:$GOPATH/bin:$PATH
+export GPG_TTY=$(tty)

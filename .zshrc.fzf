@@ -1,0 +1,10 @@
+_fzf_compgen_path() {
+  find -L "$1" -mindepth 1 -maxdepth 6 -not -path '*/\.*' | sed 's@^\./@@'
+}
+
+_fzf_compgen_dir() {
+  find -L "$1" -type d -mindepth 1 -maxdepth 6 -not -path '*/\.*' | sed 's@^\./@@'
+}
+
+export FZF_DEFAULT_OPTS='--height 20% --reverse'
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git -g ""'
