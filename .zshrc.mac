@@ -1,13 +1,17 @@
 function git {
-  if ! ssh-add -L | grep -q opensc; then
-    ssh-add -s /usr/local/lib/opensc-pkcs11.so
+  if [ -f /usr/local/lib/opensc-pkcs11.so ]; then
+    if ! ssh-add -L | grep -q opensc; then
+      ssh-add -s /usr/local/lib/opensc-pkcs11.so
+    fi
   fi
   /usr/bin/git "$@"
 }
 
 function ssh {
-  if ! ssh-add -L | grep -q opensc; then
-    ssh-add -s /usr/local/lib/opensc-pkcs11.so
+  if [ -f /usr/local/lib/opensc-pkcs11.so ]; then
+    if ! ssh-add -L | grep -q opensc; then
+      ssh-add -s /usr/local/lib/opensc-pkcs11.so
+    fi
   fi
   /usr/bin/ssh "$@"
 }
@@ -61,7 +65,7 @@ function cdd {
   export FZF_DEFAULT_COMMAND=$FZF_DEFAULT_COMMAND_SAVED
 }
 
-eval $(gdircolors)
+eval $(/usr/local/bin/gdircolors)
 alias ls='gls --color=auto'
 
 export GOPATH=$HOME/Development/go
